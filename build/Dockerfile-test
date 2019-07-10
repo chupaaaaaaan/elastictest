@@ -1,0 +1,24 @@
+FROM ubuntu:bionic
+WORKDIR /root
+
+ENV NVM_DIR "/root/.nvm"
+
+RUN : install emacs / some packages / set timezone && \
+        : "================some packages================" && \
+        apt update && apt -y install curl tzdata && \
+        apt clean && rm -rf /var/lib/apt/lists/* && \
+        ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+        : "================nvm================" && \
+        mkdir -p "$NVM_DIR" && \
+        curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && \
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
+        nvm install stable && \
+        nvm alias default stable && \
+        : "================packages================" && \
+        npm config set -g user root && \
+        npm install -g http-server elm elm-format elm-oracle elm-test && \
+        : ===========================end===========================
+
+
+ENTRYPOINT ["tail","-f","/dev/null"]
