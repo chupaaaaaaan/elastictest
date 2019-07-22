@@ -60,7 +60,7 @@ services:
     container_name: test
 
     volumes:
-      - ./contents/test:/
+      - ./contents/test:/test
       - ./data:/data
 
     networks:
