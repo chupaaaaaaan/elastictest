@@ -14,7 +14,13 @@ services:
       - discovery.type=single-node
 
     volumes:
+      # elasticsearch data
       - esdata:/usr/share/elasticsearch/data
+
+      # elasticsearch config
+      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+
+      # - ./data:/data
 
     networks:
       - esnet
@@ -27,8 +33,11 @@ services:
     ports:
       - "5601:5601"
 
-    # volumes:
-    #   - ./contents/kibana/settings:/usr/share/kibana/config
+    volumes:
+      # kibana config
+      - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+
+      # - ./data:/data
 
     networks:
       - esnet
@@ -45,8 +54,14 @@ services:
       - "5044"
 
     volumes:
-      - ./contents/logstash/settings:/etc/logstash
-      - ./contents/filebeat/config:/etc/filebeat
+      # logstash config
+      - ./config/logstash/logstash.yml:/etc/logstash/logstash.yml
+      - ./config/logstash/pipelines.yml:/etc/logstash/pipelines.yml
+      - ./config/logstash/conf.d:/etc/logstash/conf.d
+
+      # filebeat config
+      - ./config/filebeat/filebeat.yml:/etc/filebeat/filebeat.yml
+
       - ./data:/data
 
     networks:
@@ -60,7 +75,7 @@ services:
     container_name: test
 
     volumes:
-      - ./contents/test:/test
+      - ./config/test:/test
       - ./data:/data
 
     networks:
